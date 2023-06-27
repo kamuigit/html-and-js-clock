@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>clock</title>
+    <style>
+        body {
+            color: white;
+            background-color: black;
+            transition-delay: 0.2s;
+        }
+
+        .dark {
+            color: black;
+            background-color: white;
+        }
+
+        .dark2 {
+            border: 5px solid white;
+            border-radius: 50%;
+            margin: 0%;
+            padding: 6px;
+            height: 201px;
+            width: 201px;
+            position: relative;
+            margin-top: 10%;
+            margin-left: 40%;
+        }
+
+        #clock-dial {
+            height: 200px;
+            width: 200px;
+            margin: 0%;
+            border: 5px solid black;
+            border-radius: 50%;
+            position: relative;
+            padding: 0%;
+            box-sizing: border-box;
+            background-color: white;
+        }
+
+        #point {
+            position: absolute;
+            width: 9px;
+            height: 10px;
+            padding: 0%;
+            margin: 0%;
+            background-color: black;
+            border-radius: 50%;
+            top: 92px;
+            left: 92px;
+
+        }
+
+        #second-hand {
+            position: absolute;
+            top: -75px;
+            left: 0%;
+            margin: 0%;
+            width: 7px;
+            height: 160px;
+        }
+
+        #minute-hand {
+            position: absolute;
+            top: -68px;
+            left: 1px;
+            width: 8px;
+            height: 145px;
+            margin: 0%;
+        }
+
+        #hour-hand {
+            position: absolute;
+            top: -54px;
+            left: 0%;
+            width: 8px;
+            height: 120px;
+            margin: 0%;
+        }
+
+        #minute {
+            width: 4px;
+            height: 70px;
+            position: relative;
+            left: 1px;
+            border-radius: 2px 2px;
+            background-color: black;
+            margin: 0%;
+        }
+
+        #second {
+            width: 2px;
+            height: 80px;
+            position: relative;
+            left: 3px;
+            border-radius: 1px 1px;
+            background-color: black;
+            margin: 0%;
+        }
+
+        #hour {
+            width: 6px;
+            height: 60px;
+            position: relative;
+            left: 1px;
+            border-radius: 3px 3px;
+            background-color: black;
+            margin: 0%;
+        }
+
+        #toggleButton {
+            background-color: black;
+            height: 30px;
+            width: 100px;
+            padding-top: 4px;
+            border: 2px solid white;
+            border-radius: 20px;
+            color: white;
+        }
+
+        #buton {
+            margin-left: 44%;
+        }
+
+        .time {
+            font-size: 50px;
+        }
+
+        .date {
+            font-size: 20px;
+        }
+
+        .digiclock {
+            margin-top: 5%;
+            margin-left: 40%;
+            height: auto;
+            width: max-content;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 30px;
+            text-align: center;
+            border: 2px solid white;
+        }
+
+        #dayname,
+        #month,
+        #daynum {
+            padding-left: 1%;
+        }
+    </style>
+</head>
+
+<body class="dark" onload="inticlock()">
+    <div id="buton"> <button onclick="dark1()" id="toggleButton"> dark mode</button> </div>
+    <div id="clock-container">
+        <div class="dark2">
+            <div id="clock-dial">
+                <div id="point">
+                    <div id="second-hand">
+                        <div id="second"></div>
+                    </div>
+                    <div id="minute-hand">
+                        <div id="minute"></div>
+                    </div>
+                    <div id="hour-hand">
+                        <div id="hour"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="digiclock">
+            <div class="time">
+                <span id="hours">00</span>:
+                <span id="minutes">00</span>
+                <span id="period">AM</span>
+            </div>
+            <div class="date">
+                <span id="dayname">Day</span>,
+                <span id="month">Month</span>
+                <span id="daynum">00</span>
+            </div>
+        </div>
+
+    </div>
+    <script>
+        function updatclock() {
+            var now = new Date();
+            var dnam = now.getDay();
+            mon = now.getMonth();
+            dnum = now.getDate();
+            hr = now.getHours();
+            min = now.getMinutes();
+            pe = "AM";
+
+            if (hr == 0) {
+                hr = 12;
+            }
+            if (hr > 12) {
+                hr = hr - 12;
+                pe = "PM"
+            }
+            if (min < 10) {
+                min = "0" + min.toString();
+            }
+            var months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sept', 'Oct', 'Nov', 'Dec']
+            var week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+            var ids = ['dayname', 'month', 'daynum', 'hours', 'minutes', 'period']
+            var val = [week[dnam], months[mon], dnum, hr, min, pe]
+            for (var i = 0; i < ids.length; i++) {
+                document.getElementById(ids[i]).firstChild.nodeValue = val[i]
+            }
+        }
+        function inticlock() {
+            updatclock();
+            window.setInterval("updatclock()", 1)
+        }
+
+        function dark1() {
+            document.body.classList.toggle("dark")
+        }
+        setInterval(
+            function updatclock2() {
+                var now = new Date();
+                var min = now.getMinutes() * 6;
+                var sec = now.getSeconds() * 6;
+                var hr = now.getHours() * 30 + Math.round(min / 12);
+                document.getElementById("second-hand").style.transform = "rotate(" + sec + "deg)";
+                document.getElementById("minute-hand").style.transform = "rotate(" + min + "deg)";
+                document.getElementById("hour-hand").style.transform = "rotate(" + hr + "deg)";
+            }, 1000)
+    </script>
+</body>
+
+</html>
